@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Tasin!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Press Start 2P', cursive;
+    overflow-x: hidden;
+    background: #0f0f0f;
+    color: #00ffea;
+    text-align: center;
+    padding-top: 80px; /* Space for the fixed navbar */
+  }
+  
+  /* --- Navigation Bar --- */
+  nav {
+    background: rgba(17, 17, 17, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    width: 100%;
+    padding: 15px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #00ffea;
+  }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  nav ul li a {
+    color: #00ffea;
+    text-decoration: none;
+    font-size: 0.8em;
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  nav ul li a:hover {
+    border-color: #ff00ff;
+    color: #ff00ff;
+  }
+  nav ul li a.active {
+    background-color: #00ffea;
+    color: #111;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00ffea;
+  }
+  /* --- End Navigation Bar --- */
+
+  h1 {
+    font-size: 2.5em;
+    margin-top: 20px; /* Adjusted margin */
+    color: #00ffea;
+    text-shadow:
+      0 0 5px #00ffea,
+      0 0 10px #00ffea,
+      0 0 20px #00ffea,
+      0 0 40px #00ffea,
+      0 0 80px #00ffea;
+    animation: neonPulse 1.5s infinite alternate;
+  }
+
+  @keyframes neonPulse {
+    0% { text-shadow: 0 0 5px #00ffea,0 0 10px #00ffea,0 0 20px #00ffea,0 0 40px #00ffea,0 0 80px #00ffea; }
+    100% { text-shadow: 0 0 10px #ff00ff,0 0 20px #ff00ff,0 0 40px #ff00ff,0 0 80px #ff00ff,0 0 160px #ff00ff; }
+  }
+
+  .timer {
+    font-size: 1.5em;
+    margin: 20px 0;
+    padding: 15px 25px;
+    background: #111;
+    border: 2px solid #00ffea;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 0 20px #00ffea;
+  }
+
+  .buttons {
+    margin: 30px 0;
+  }
+
+  .buttons a {
+    text-decoration: none;
+  }
+
+  .buttons button {
+    margin: 15px;
+    padding: 15px 30px;
+    font-size: 1em;
+    border: 2px solid #00ffea;
+    border-radius: 10px;
+    cursor: pointer;
+    background: #111;
+    color: #00ffea;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00ffea, 0 0 20px #00ffea inset;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .buttons button:hover {
+    color: #ff00ff;
+    border-color: #ff00ff;
+    box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff inset;
+    transform: scale(1.05) rotate(-2deg);
+  }
+
+  #musicButton {
+    margin-top: 20px;
+  }
+
+  #musicButton button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 10px;
+    background: #00ffea;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 10px #00ffea;
+    transition: 0.3s;
+  }
+
+  #musicButton button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px #ff00ff;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <ul>
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="poem.html">Poem</a></li>
+    <li><a href="card.html">Card</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+  </ul>
+</nav>
+
+<canvas id="confetti"></canvas>
+
+<h1>Happy Birthday, Tasin! 🎮</h1>
+
+<div class="timer" id="timer">Loading...</div>
+
+<div class="buttons">
+  <a href="poem.html"><button>Poem</button></a>
+  <a href="card.html"><button>Gift Card</button></a>
+  <a href="gallery.html"><button>Gallery</button></a>
+</div>
+
+<!-- Background Music -->
+<audio id="birthdayMusic" src="Happy Birthday Song!!!.mp3" loop></audio>
+
+<!-- Music Start Button -->
+<div id="musicButton">
+  <button onclick="startMusic()">▶ Play Birthday Music</button>
+</div>
+
+<script>
+  // Countdown Timer
+  const countdown = () => {
+    const now = new Date();
+    const birthday = new Date(now.getFullYear(), 8, 14, 0, 0, 0); // Sept 14
+    if (now > birthday) birthday.setFullYear(birthday.getFullYear() + 1);
+    const diff = birthday - now;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('timer').innerHTML = 
+      `${days}d ${hours}h ${minutes}m ${seconds}s`;
+  };
+  setInterval(countdown, 1000);
+  countdown();
+
+  // Start Music
+  const music = document.getElementById('birthdayMusic');
+  function startMusic() {
+    music.play();
+    document.getElementById('musicButton').style.display = 'none';
+  }
+
+  // Neon Confetti Effect
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  let W = window.innerWidth;
+  let H = window.innerHeight;
+  canvas.width = W;
+  canvas.height = H;
+
+  const confettiCount = 150;
+  const confetti = [];
+
+  function random(min,max){return Math.random()*(max-min)+min;}
+
+  for(let i=0;i<confettiCount;i++){
+    confetti.push({
+      x: random(0,W),
+      y: random(-H,0),
+      r: random(2,6),
+      d: random(10,50),
+      color: `hsl(${Math.floor(random(0,360))},100%,50%)`,
+      tilt: random(-10,10),
+      tiltAngleIncrement: random(0.05,0.12),
+      tiltAngle: 0
+    });
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    confetti.forEach(c=>{
+      ctx.beginPath();
+      ctx.lineWidth = c.r;
+      ctx.strokeStyle = c.color;
+      ctx.moveTo(c.x + c.tilt + c.r/2, c.y);
+      ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r/2);
+      ctx.stroke();
+    });
+    update();
+  }
+
+  function update(){
+    confetti.forEach(c=>{
+      c.tiltAngle += c.tiltAngleIncrement;
+      c.y += (Math.cos(c.d) + 3 + c.r/2)/2;
+      c.x += Math.sin(c.d);
+      c.tilt = Math.sin(c.tiltAngle)*15;
+      if(c.y > H){ c.y = -10; c.x = random(0,W); }
+    });
+  }
+
+  setInterval(draw,16);
+  window.addEventListener('resize',()=>{
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width = W;
+    canvas.height = H;
+  });
+</script>
+
+</body>
+</html>

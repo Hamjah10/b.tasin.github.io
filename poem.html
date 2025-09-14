@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>শুভ জন্মদিন, তাসিন!</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#ffb86b;
+      --glass: rgba(255,255,255,0.05);
+      --glass-2: rgba(255,255,255,0.03);
+    }
+    /* Basic reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{min-height:100vh}
+    body{
+      font-family: 'Noto Sans Bengali', 'Kalpurush', 'SolaimanLipi', "Bangla", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(1200px 800px at 10% 10%, #0b2238 0%, var(--bg) 30%), linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+      color: #e6eef8;
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 80px 24px 24px 24px; /* Space for fixed navbar */
+    }
+
+    /* --- Navigation Bar --- */
+    nav {
+      background: rgba(11, 18, 32, 0.7); /* var(--card) with alpha */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      width: 100%;
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1001; /* Above confetti */
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    nav ul li a {
+      color: #e6eef8;
+      text-decoration: none;
+      font-size: 1em;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    nav ul li a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    nav ul li a.active {
+      background-color: var(--accent); /* #ffb86b */
+      color: #0f1724; /* var(--bg) */
+      font-weight: bold;
+    }
+    /* --- End Navigation Bar --- */
+
+    /* Card */
+    .card{
+      width:100%;
+      max-width:880px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+    }
+
+    header{
+      display:flex;gap:16px;align-items:center;margin-bottom:18px;
+    }
+    .avatar{
+      width:72px;height:72px;border-radius:14px;display:grid;place-items:center;font-weight:700;font-size:28px;background:linear-gradient(135deg,#ffb86b,#ff6b8a);color:#10232a;box-shadow:0 6px 18px rgba(255,107,138,0.12);
+    }
+    h1{font-size:24px;line-height:1}
+    p.subtitle{color:rgba(230,238,248,0.75);margin-top:6px}
+
+    /* Poem */
+    .poem{
+      margin-top:12px;padding:18px;border-radius:12px;background:linear-gradient(180deg,var(--glass),var(--glass-2));border:1px solid rgba(255,255,255,0.02);
+      min-height:220px;display:flex;flex-direction:column;justify-content:center;gap:8px;padding-left:28px;padding-right:28px;
+    }
+    .line{font-size:20px;opacity:0;transform:translateY(12px);transition:all .6s cubic-bezier(.2,.9,.3,1);}
+    .line.show{opacity:1;transform:translateY(0)}
+
+    /* Cake & balloons */
+    .visuals{position:absolute;right:22px;top:22px;pointer-events:none}
+    .cake{width:110px;height:110px;position:relative}
+    .cake .layer{position:absolute;left:50%;transform:translateX(-50%);border-radius:8px}
+    .cake .base{bottom:6px;width:84px;height:40px;background:linear-gradient(180deg,#ffd6a5,#ffb86b);box-shadow:0 6px 18px rgba(255,184,107,0.12)}
+    .cake .mid{bottom:36px;width:66px;height:28px;background:linear-gradient(180deg,#fff1cc,#ffd6a5)}
+    .cake .top{bottom:62px;width:46px;height:20px;background:linear-gradient(180deg,#fff8e1,#fff1cc)}
+    .candle{position:absolute;bottom:84px;left:50%;transform:translateX(-50%);width:6px;height:26px;background:#ffeaa7;border-radius:3px}
+    .flame{position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:12px;height:14px;border-radius:50%;background:radial-gradient(circle at 40% 30%, #fff59d 0%, #ffb86b 35%, #ff6b6b 100%);filter:drop-shadow(0 4px 6px rgba(255,107,138,0.25));animation:flicker 900ms infinite}
+    @keyframes flicker{0%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(-52%) scaleY(0.92)}100%{transform:translateX(-50%) scaleY(1)} }
+
+    /* Balloons */
+    .balloon{position:absolute;width:44px;height:56px;border-radius:50% 50% 46% 46%;bottom:86px;opacity:0.95}
+    .balloon::after{content:'';position:absolute;left:50%;bottom:-22px;width:2px;height:22px;background:rgba(255,255,255,0.12);transform:translateX(-50%)}
+    .balloon.b1{right:138px;background:linear-gradient(180deg,#ff9de3,#ff6b8a);animation:floaty 6s ease-in-out infinite}
+    .balloon.b2{right:188px;background:linear-gradient(180deg,#9de1ff,#6baeff);animation:floaty 5.6s ease-in-out infinite .2s}
+    .balloon.b3{right:90px;background:linear-gradient(180deg,#c6ffb3,#8cff6b);animation:floaty 6.4s ease-in-out infinite .1s}
+    @keyframes floaty{0%{transform:translateY(6px)}50%{transform:translateY(-12px)}100%{transform:translateY(6px)}}
+
+    /* controls */
+    .controls{display:flex;gap:10px;margin-top:16px}
+    .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 14px;border-radius:10px;color:inherit;cursor:pointer;font-weight:600}
+    .btn:active{transform:translateY(1px)}
+
+    /* footer note */
+    .note{margin-top:14px;color:rgba(230,238,248,0.6);font-size:13px}
+
+    /* responsive */
+    @media (max-width:640px){
+      .visuals{display:none}
+      .card{padding:18px}
+      .line{font-size:18px}
+    }
+
+    /* Confetti canvas full screen */
+    #confetti{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:120}
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="poem.html" class="active">Poem</a></li>
+      <li><a href="card.html">Card</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+    </ul>
+  </nav>
+
+  <canvas id="confetti"></canvas>
+  <div class="card" role="article" aria-labelledby="title">
+    <header>
+      <div class="avatar" aria-hidden="true">ত</div>
+      <div>
+        <h1 id="title">শুভ জন্মদিন, তাসিন!</h1>
+        <p class="subtitle">বন্ধুদের পক্ষ থেকে তোমার জন্য ভালোবাসা ও শুভেচ্ছা — আজকের দিনটি থাকোক স্মরণীয়।</p>
+      </div>
+    </header>
+
+    <div class="poem" id="poem" aria-live="polite">
+      <div class="line">তাসিন আজ তোমার দিন,</div>
+      <div class="line">হাসি থাকুক সকাল-বিকেল রঙিন।</div>
+      <div class="line">বন্ধুত্বে ভরা এই শুভক্ষণ,</div>
+      <div class="line">আনন্দে কাটুক প্রতিটি ক্ষণ।</div>
+
+      <div class="line">স্বপ্নগুলো হোক আকাশ সমান,</div>
+      <div class="line">সাফল্যে ভরে উঠুক প্রতিটি প্রমাণ।</div>
+      <div class="line">জীবন হোক ফুলের বাগান,</div>
+      <div class="line">শান্তি-ভালোবাসা থাকুক সারাক্ষণ।</div>
+
+      <div class="line">বন্ধু, আজকে শুধু তোমার উৎসব,</div>
+      <div class="line">হৃদয়ে রাখো সুখের অনন্ত কবচ।</div>
+      <div class="line">শুভ জন্মদিন তাসিন—</div>
+      <div class="line">আলো ছড়াও তুমি সারাজীবন! 🎂✨</div>
+    </div>
+
+    <div class="controls" aria-hidden="true">
+      <button class="btn" id="playBtn">পাঠ শুরুক</button>
+      <button class="btn" id="replayBtn">আবার শুনাও</button>
+      <button class="btn" id="confettiBtn">কনফেট্টি</button>
+    </div>
+
+    <p class="note">Tip: "পাঠ শুরুক" চাপলে লাইন-লাইন করে কবিতাটি এনিমেশনসহ দেখাবে।</p>
+
+    <div class="visuals" aria-hidden="true">
+      <div class="balloon b1"></div>
+      <div class="balloon b2"></div>
+      <div class="balloon b3"></div>
+      <div class="cake" aria-hidden="true">
+        <div class="layer base"></div>
+        <div class="layer mid"></div>
+        <div class="layer top"></div>
+        <div class="candle"></div>
+        <div class="flame"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple line-by-line reveal
+    const lines = Array.from(document.querySelectorAll('.poem .line'));
+    const playBtn = document.getElementById('playBtn');
+    const replayBtn = document.getElementById('replayBtn');
+    const confettiBtn = document.getElementById('confettiBtn');
+
+    function revealLines(delay = 500){
+      lines.forEach((ln, i) =>{
+        ln.classList.remove('show');
+        ln.style.transitionDelay = (i * 260) + 'ms';
+      });
+      // small timeout to allow removal
+      setTimeout(()=>{
+        lines.forEach((ln, i) =>{
+          setTimeout(()=> ln.classList.add('show'), i * delay / 2);
+        });
+      }, 50);
+    }
+
+    playBtn.addEventListener('click', ()=> revealLines(520));
+    replayBtn.addEventListener('click', ()=>{
+      // hide then reveal
+      lines.forEach(ln => ln.classList.remove('show'));
+      setTimeout(()=> revealLines(520), 120);
+      shootConfetti();
+    });
+
+    confettiBtn.addEventListener('click', shootConfetti);
+
+    // basic canvas confetti implementation (no libs)
+    const confCanvas = document.getElementById('confetti');
+    const ctx = confCanvas.getContext('2d');
+    let confettiPieces = [];
+    function resizeCanvas(){ confCanvas.width = innerWidth; confCanvas.height = innerHeight; }
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function random(min,max){ return Math.random()*(max-min)+min }
+
+    function createPiece(){
+      const w = random(6,12);
+      return {
+        x: random(0, confCanvas.width),
+        y: random(-20, -60),
+        w, h: w*1.6,
+        vx: random(-1.6,1.6),
+        vy: random(2,5),
+        r: random(0,360),
+        vr: random(-8,8),
+        color: `hsl(${Math.floor(random(0,360))} ${random(65,95)}% ${random(40,65)}%)`,
+        life: random(2800,4800),
+        spawn: Date.now()
+      };
+    }
+
+    function shootConfetti(count=80){
+      for(let i=0;i<count;i++) confettiPieces.push(createPiece());
+      // Auto remove after some time
+      setTimeout(()=> confettiPieces = confettiPieces.slice(-200), 7000);
+      animateConfetti();
+    }
+
+    let animId = null;
+    function animateConfetti(){
+      if(animId) cancelAnimationFrame(animId);
+      const start = Date.now();
+      function frame(){
+        ctx.clearRect(0,0,confCanvas.width,confCanvas.height);
+        const now = Date.now();
+        confettiPieces.forEach((p, idx) =>{
+          const t = now - p.spawn;
+          if(t > p.life){ confettiPieces[idx] = null; return }
+          p.x += p.vx;
+          p.y += p.vy + Math.sin((now + idx*17)/200) * 0.6; // subtle sway
+          p.vy += 0.03; // gravity
+          p.r += p.vr * 0.03;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.r * Math.PI/180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+          ctx.restore();
+        });
+        confettiPieces = confettiPieces.filter(Boolean);
+        if(confettiPieces.length>0) animId = requestAnimationFrame(frame); else cancelAnimationFrame(animId);
+      }
+      frame();
+    }
+
+    // Auto-start reveal on first load
+    window.addEventListener('load', ()=>{
+      // small stagger
+      setTimeout(()=> revealLines(520), 300);
+      // a gentle confetti after poem reveals
+      setTimeout(()=> shootConfetti(40), 1600);
+    });
+
+    // Accessibility: allow keyboard
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter') revealLines(520);
+      if(e.key === ' ') shootConfetti(60);
+    });
+
+  </script>
+</body>
+</html>
